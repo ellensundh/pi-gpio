@@ -6,7 +6,8 @@ var fs = require("fs"),
 var gpioAdmin = "gpio-admin",
 	sysFsPath = "/sys/devices/virtual/gpio";
 
-var pinMapping = {
+
+var REV1 = {
 	"3": 0,
 	"5": 1,
 	"7": 4,
@@ -23,8 +24,28 @@ var pinMapping = {
 	"22": 25,
 	"23": 11,
 	"24": 8,
-	"26": 7
-};
+	"26": 7};
+
+var REV2 = { 
+	"3": 2,
+	"5": 3,
+	"7": 4,
+	"8": 14,
+	"10": 15,
+	"11": 17,
+	"12": 18,
+	"13": 27,
+	"15": 22,
+	"16": 23,
+	"18": 24,
+	"19": 10,
+	"21": 9,
+	"22": 25,
+	"23": 11,
+	"24": 8,
+	"26": 7};
+
+var pinMapping = REV1;
 
 function isNumber(number) {
 	return !isNaN(parseInt(number, 10));
@@ -64,6 +85,17 @@ function sanitizeDirection(direction) {
 }
 
 var gpio = {
+	REV1:REV1,
+	REV2:REV2,
+
+	setBoard:function(boardType) {
+		if(boardType != REV1 && boardType != REV2) {
+			console.log("Error when setting revision of board. Please specify 'gpio.REV1' or 'gpio.REV2'");
+		} else {
+			pinMapping = boardType;
+		}
+	},
+
 	open: function(pinNumber, direction, callback) {
 		pinNumber = sanitizePinNumber(pinNumber);
 
