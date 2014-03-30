@@ -45,7 +45,7 @@ var REV2 = {
 	"24": 8,
 	"26": 7};
 
-var pinMapping = REV1;
+var pinMapping = REV2;
 
 function isNumber(number) {
 	return !isNaN(parseInt(number, 10));
